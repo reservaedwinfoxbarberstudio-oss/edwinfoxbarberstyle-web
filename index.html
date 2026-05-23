@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Edwin Fox Barber Style — Barbería de alto estándar en Maipú, Santiago. Cortes masculinos, femeninos e infantiles. Perfilado de barba. Reserva tu hora.">
+<meta name="keywords" content="barbería Maipú, barbero Maipú, corte de pelo Maipú, barba Maipú, Edwin Fox, barbería Santiago">
+<meta property="og:title" content="Edwin Fox Barber Style — Maipú, Santiago">
+<meta property="og:description" content="Barbería de alto estándar en Maipú. Cortes, barba y estilo con identidad propia.">
+<meta property="og:url" content="https://edwinfoxbarberstyle.com">
+<meta property="og:type" content="website">
+<title>Edwin Fox Barber Style | Barbería Maipú, Santiago</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:       #0B0B0B;
+    --surface:  #141414;
+    --surface2: #1C1C1C;
+    --gold:     #C8A96A;
+    --gold-dim: #7A6340;
+    --text:     #F2EDE4;
+    --muted:    #7A7570;
+    --border:   rgba(200,169,106,0.15);
+    --fox:      #9E3020;
+    --serif:    'Cormorant Garamond', Georgia, serif;
+    --sans:     'Outfit', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-weight: 300;
+    line-height: 1.7;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE TEXTURE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.4rem 3rem;
+    border-bottom: 1px solid transparent;
+    transition: all 0.4s ease;
+  }
+
+  nav.scrolled {
+    background: rgba(11,11,11,0.92);
+    backdrop-filter: blur(12px);
+    border-color: var(--border);
+  }
+
+  .nav-logo {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    text-decoration: none;
+  }
+
+  .nav-logo span { color: var(--gold); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.4rem;
+    list-style: none;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 0.55rem 1.4rem;
+    text-decoration: none;
+    transition: opacity 0.3s;
+  }
+
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 0 3rem 6rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 70% 40%, rgba(158,48,32,0.06) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(200,169,106,0.04) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .hero-eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+
+  .hero-title {
+    font-family: var(--serif);
+    font-size: clamp(3.5rem, 9vw, 8rem);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    max-width: 14ch;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.4s forwards;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold);
+    font-weight: 300;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 0.05em;
+    color: var(--muted);
+    max-width: 42ch;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.6s forwards;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.9s 0.8s forwards;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--bg);
+    background: var(--gold);
+    padding: 1rem 2.2rem;
+    text-decoration: none;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+
+  .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+
+  .btn-secondary {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2px;
+    transition: color 0.3s, border-color 0.3s;
+  }
+
+  .btn-secondary:hover { color: var(--text); border-color: var(--gold-dim); }
+
+  /* Large background monogram */
+  .hero-bg-text {
+    position: absolute;
+    right: -0.05em;
+    top: 50%;
+    transform: translateY(-54%);
+    font-family: var(--serif);
+    font-size: clamp(16rem, 28vw, 28rem);
+    font-weight: 600;
+    color: transparent;
+    -webkit-text-stroke: 1px rgba(200,169,106,0.07);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.02em;
+  }
+
+  /* ── LINE DIVIDER ── */
+  .divider {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 3rem;
+    margin: 4rem 0;
+    opacity: 0.25;
+  }
+
+  .divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .divider-mark {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--gold);
+    font-style: italic;
+  }
+
+  /* ── SECTION BASE ── */
+  section { position: relative; z-index: 1; }
+
+  .section-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 3rem;
+  }
+
+  .section-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(2rem, 4vw, 3.2rem);
+    font-weight: 300;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+  }
+
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── ABOUT ── */
+  .about {
+    padding: 6rem 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-text p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    line-height: 1.9;
+    margin-bottom: 1rem;
+  }
+
+  .about-text p strong {
+    color: var(--text);
+    font-weight: 400;
+  }
+
+  .about-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .stat {
+    border-top: 1px solid var(--border);
+    padding-top: 1.2rem;
+  }
+
+  .stat-num {
+    font-family: var(--serif);
+    font-size: 2.8rem;
+    font-weight: 300;
+    color: var(--gold);
+    line-height: 1;
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* ── SERVICES ── */
+  .services { padding: 7rem 0; }
+
+  .services-intro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: end;
+    margin-bottom: 4rem;
+  }
+
+  .services-desc {
+    font-size: 0.88rem;
+    color: var(--muted);
+    line-height: 1.9;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .service-card {
+    background: var(--bg);
+    padding: 2rem 1.8rem;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover { background: var(--surface); }
+
+  .service-icon {
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    display: block;
+    opacity: 0.6;
+  }
+
+  .service-name {
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-weight: 400;
+    margin-bottom: 0.5rem;
+    color: var(--text);
+  }
+
+  .service-desc {
+    font-size: 0.78rem;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 1.2rem;
+  }
+
+  .service-price {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  /* ── BOOKING ── */
+  .booking {
+    padding: 7rem 0;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .booking .section-title { margin-bottom: 0.8rem; }
+
+  .booking-sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 3rem;
+  }
+
+  .booking-options {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .booking-divider {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  /* ── LOCATION ── */
+  .location { padding: 7rem 0; }
+
+  .location-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: start;
+  }
+
+  .location-detail {
+    margin-bottom: 1.8rem;
+  }
+
+  .location-detail-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.3rem;
+  }
+
+  .location-detail-value {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  .location-map {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .map-placeholder {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .map-link {
+    display: inline-block;
+    margin-top: 0.8rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    text-decoration: none;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1px;
+  }
+
+  /* ── SOCIAL BAR ── */
+  .social-bar {
+    padding: 4rem 0;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .social-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .social-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 3rem;
+  }
+
+  .social-link {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+
+  .social-link:hover { color: var(--gold); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2.5rem 3rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface);
+  }
+
+  .footer-logo {
+    font-family: var(--serif);
+    font-size: 1rem;
+    color: var(--muted);
+    font-weight: 300;
+  }
+
+  .footer-copy {
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    opacity: 0.5;
+  }
+
+  .footer-loc {
+    font-size: 0.7rem;
+    letter-spacing: 0.08em;
+    color: var(--muted);
+    opacity: 0.6;
+    text-align: right;
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    z-index: 200;
+    background: #1FAD52;
+    color: white;
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 4px 20px rgba(31,173,82,0.35);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .wa-float:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 28px rgba(31,173,82,0.5);
+  }
+
+  .wa-float svg { width: 26px; height: 26px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hero { padding: 0 1.5rem 5rem; }
+    .section-inner { padding: 0 1.5rem; }
+    .about-grid,
+    .services-intro,
+    .location-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .hero-bg-text { display: none; }
+    footer { flex-direction: column; gap: 0.8rem; text-align: center; }
+    .footer-loc { text-align: center; }
+    .divider { padding: 0 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">Edwin <span>Fox</span></a>
+  <ul class="nav-links">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#nosotros">Estudio</a></li>
+    <li><a href="#ubicacion">Ubicación</a></li>
+  </ul>
+  <a href="https://wa.me/56986505521?text=Hola%2C%20quiero%20reservar%20una%20hora%20en%20Edwin%20Fox%20Barber%20Style" class="nav-cta" target="_blank" rel="noopener">Reservar hora</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text" aria-hidden="true">EF</div>
+  <p class="hero-eyebrow">Maipú, Santiago — desde 2024</p>
+  <h1 class="hero-title">El arte de <em>definir</em> tu imagen</h1>
+  <p class="hero-subtitle">Cortes con criterio. Barba con precisión. Estilo con identidad propia. Edwin Fox Barber Style — barbería de alto estándar en Maipú.</p>
+  <div class="hero-actions">
+    <a href="https://wa.me/56986505521?text=Hola%2C%20quiero%20reservar%20una%20hora%20en%20Edwin%20Fox%20Barber%20Style" class="btn-primary" target="_blank" rel="noopener">Reservar por WhatsApp</a>
+    <a href="#servicios" class="btn-secondary">Ver servicios</a>
+  </div>
+</section>
+
+<div class="divider"><span class="divider-mark">✦</span></div>
+
+<!-- ABOUT -->
+<section class="about" id="nosotros">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-text reveal">
+        <p class="section-label">El estudio</p>
+        <h2 class="section-title">Modern <em>Heritage</em></h2>
+        <p>En Edwin Fox Barber Style entendemos que un buen corte no es solo técnica — es <strong>criterio estético</strong>. Trabajamos con hombres, mujeres y niños que valoran el detalle y buscan un resultado que los represente.</p>
+        <p>Ubicados en J. Márquez Barber Shop, Maipú. Un espacio pensado para quienes no se conforman con lo ordinario.</p>
+        <p>Nuestro equipo, liderado por <strong>Edwin</strong> junto a <strong>José</strong>, combina formación técnica con sensibilidad visual — el resultado es un servicio que supera lo que se espera de una barbería local.</p>
+      </div>
+      <div class="about-stats reveal">
+        <div class="stat">
+          <div class="stat-num">13</div>
+          <div class="stat-label">Servicios disponibles</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">2</div>
+          <div class="stat-label">Especialistas en estudio</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">4</div>
+          <div class="stat-label">Niveles de servicio</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">Maipú</div>
+          <div class="stat-label">RM, Chile</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="section-inner">
+    <div class="services-intro">
+      <div class="reveal">
+        <p class="section-label">Servicios</p>
+        <h2 class="section-title">Cada servicio,<br>una <em>intención</em></h2>
+      </div>
+      <p class="services-desc reveal">Desde el corte esencial hasta el ritual VIP completo. Precios en pesos chilenos, sin sorpresas. Reserva directo por WhatsApp o Instagram.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-icon" aria-hidden="true">✂</span>
+        <h3 class="service-name">Corte masculino</h3>
+        <p class="service-desc">Corte técnico con criterio estético. Fade, undercut, clásico o contemporáneo. Finalizado con producto.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon" aria-hidden="true">◈</span>
+        <h3 class="service-name">Perfilado de barba</h3>
+        <p class="service-desc">Definición de líneas, hidratación y forma. Barba trabajada como extensión del estilo personal.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon" aria-hidden="true">◇</span>
+        <h3 class="service-name">Corte + barba</h3>
+        <p class="service-desc">El servicio completo. Corte y barba en una sesión coordinada para un resultado unificado.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon" aria-hidden="true">✦</span>
+        <h3 class="service-name">Corte femenino</h3>
+        <p class="service-desc">Cortes femeninos con enfoque en estructura y movimiento. Sin ceñirse a géneros, sí a la forma.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon" aria-hidden="true">○</span>
+        <h3 class="service-name">Corte infantil</h3>
+        <p class="service-desc">Ambiente cómodo y técnica adaptada para los más pequeños. Resultado prolijo, experiencia tranquila.</p>
+        <span class="service-price">Consultar precio</span>
+      </div>
+      <div class="service-card reveal" style="border-left: 2px solid var(--gold-dim);">
+        <span class="service-icon" aria-hidden="true">★</span>
+        <h3 class="service-name">Paquete VIP</h3>
+        <p class="service-desc">La experiencia completa Edwin Fox. Corte, barba, tratamiento y atención exclusiva sin apuro.</p>
+        <span class="service-price">Servicio premium</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section class="booking" id="reservas">
+  <div class="section-inner">
+    <p class="section-label">¿Listo?</p>
+    <h2 class="section-title reveal">Reserva tu <em>hora</em></h2>
+    <p class="booking-sub reveal">Respuesta inmediata. Sin formularios. Sin espera.</p>
+    <div class="booking-options reveal">
+      <a href="https://wa.me/56986505521?text=Hola%2C%20quiero%20reservar%20una%20hora%20en%20Edwin%20Fox%20Barber%20Style" class="btn-primary" target="_blank" rel="noopener">
+        WhatsApp directo
+      </a>
+      <span class="booking-divider">— o —</span>
+      <a href="https://www.instagram.com/edwinfoxbarberstyle/" class="btn-secondary" target="_blank" rel="noopener">
+        Mensaje por Instagram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- LOCATION -->
+<section class="location" id="ubicacion">
+  <div class="section-inner">
+    <div class="location-grid">
+      <div class="reveal">
+        <p class="section-label">Dónde encontrarnos</p>
+        <h2 class="section-title">Maipú,<br><em>Santiago</em></h2>
+
+        <div class="location-detail">
+          <p class="location-detail-label">Estudio</p>
+          <p class="location-detail-value">J. Márquez Barber Shop<br>Maipú, Región Metropolitana, Chile</p>
+        </div>
+        <div class="location-detail">
+          <p class="location-detail-label">Contacto directo</p>
+          <p class="location-detail-value">
+            <a href="https://wa.me/56986505521" style="color:var(--muted);text-decoration:none;" target="_blank">+56 9 8650 5521</a>
+          </p>
+        </div>
+        <div class="location-detail">
+          <p class="location-detail-label">Horario</p>
+          <p class="location-detail-value">Lunes a Sábado<br>Consultar disponibilidad por WhatsApp</p>
+        </div>
+      </div>
+      <div class="location-map reveal">
+        <div class="map-placeholder">
+          <p style="color:var(--text);font-size:1.1rem;margin-bottom:0.6rem;">J. Márquez Barber Shop</p>
+          <p>Maipú, Santiago</p>
+          <a href="https://maps.google.com/?q=Maipú+Santiago+Chile" class="map-link" target="_blank" rel="noopener">Ver en Google Maps →</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL -->
+<div class="social-bar">
+  <p class="social-label">Síguenos</p>
+  <div class="social-links">
+    <a href="https://www.instagram.com/edwinfoxbarberstyle/" class="social-link" target="_blank" rel="noopener">Instagram @edwinfoxbarberstyle</a>
+    <a href="https://wa.me/56986505521" class="social-link" target="_blank" rel="noopener">WhatsApp +56 9 8650 5521</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-logo">Edwin Fox Barber Style</span>
+  <span class="footer-copy">© 2025 Edwin Fox Barber Style</span>
+  <span class="footer-loc">Maipú · Santiago · Chile</span>
+</footer>
+
+<!-- WHATSAPP FLOAT -->
+<a href="https://wa.me/56986505521?text=Hola%2C%20quiero%20reservar%20una%20hora%20en%20Edwin%20Fox%20Barber%20Style" class="wa-float" target="_blank" rel="noopener" aria-label="Contactar por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg>
+</a>
+
+<script>
+  // Nav scroll effect
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
