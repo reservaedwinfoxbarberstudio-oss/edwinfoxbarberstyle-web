@@ -2,4 +2,11 @@ name = "edwinfoxbarberstyle-web"
 compatibility_date = "2026-05-22"
 
 [assets]
+directory = "./"name = "edwinfoxbarberstyle-web"
+compatibility_date = "2026-05-29"
+
+[assets]
 directory = "./"
+html_handling = "auto-trailing-slash"
+not_found_handling = "404-page"
+
