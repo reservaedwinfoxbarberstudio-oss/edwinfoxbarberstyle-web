@@ -18,28 +18,3 @@ bucket_name = "edwin-data"
 # ── CACHE ──
 [assets]
 not_found_handling = "404-page"
-
-name = "edwinfoxbarberstyle-web"
-main = "worker.js"
-compatibility_date = "2026-05-30"
-
-# ── R2 BUCKETS ──
-[[r2_buckets]]
-binding = "EDWIN_ASSETS"
-bucket_name = "edwin-assets"
-
-[[r2_buckets]]
-binding = "EDWIN_MEDIA"
-bucket_name = "edwin-media"
-
-[[r2_buckets]]
-binding = "EDWIN_DATA"
-bucket_name = "edwin-data"
-
-# ── VARIABLES DE ENTORNO ──
-[vars]
-IMAGES_ACCOUNT_HASH = "REEMPLAZAR_CON_TU_ACCOUNT_HASH"
-
-# ── CACHE ──
-[assets]
-not_found_handling = "404-page"
