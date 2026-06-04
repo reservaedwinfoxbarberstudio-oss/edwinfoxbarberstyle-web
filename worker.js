@@ -67,6 +67,10 @@ export default {
       if (path !== '/' && !path.endsWith('.html')) {
         const asset = await serveR2Asset(assetPath, env);
         if (asset) return asset;
+        return new Response('Not Found', {
+          status: 404,
+          headers: { 'Content-Type': 'text/plain; charset=utf-8' }
+        });
       }
 
       // ── HTML PRINCIPAL ──
@@ -98,7 +102,12 @@ async function fetchServicios(env) {
   try {
     if (env.EDWIN_DATA) {
       const obj = await env.EDWIN_DATA.get('servicios.json');
-      if (obj) return JSON.parse(await obj.text());
+      if (obj) {
+        const parsed = JSON.parse(await obj.text());
+        const list = Array.isArray(parsed) ? parsed
+          : (Array.isArray(parsed.servicios) ? parsed.servicios : null);
+        if (list) return list;
+      }
     }
   } catch (_) {}
   return DEFAULT_SERVICIOS;
