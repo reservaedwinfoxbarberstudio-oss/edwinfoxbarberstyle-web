@@ -369,6 +369,48 @@ function buildHTML(servicios) {
     return '<option value="' + s.nombre + '">' + s.nombre + ' — $' + s.precio.toLocaleString('es-CL') + '</option>';
   }).join('');
 
+  // ── JSON-LD: NEGOCIO + RESEÑAS ──
+  const reviewsData = [
+    { author: 'Carlos M.',    text: 'Excelente servicio. Edwin tiene un ojo increíble para lo que le queda bien a cada persona.' },
+    { author: 'Alejandro R.', text: 'El mejor corte que he tenido en Maipú. Ambiente profesional y resultado impecable.' },
+    { author: 'Marcelo T.',   text: 'Vine por el corte y salí con corte y barba. La atención es otra categoría.' }
+  ];
+  const businessLd = '<script type="application/ld+json">' + JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'HairSalon',
+    name: 'Edwin Fox Barber Style',
+    description: 'Barbería en Maipú, Santiago. Corte de pelo, barba y estilo masculino de alto estándar.',
+    telephone: '+56986505521',
+    address: { '@type': 'PostalAddress', addressLocality: 'Maipú', addressRegion: 'Región Metropolitana', addressCountry: 'CL' },
+    url: 'https://edwinfoxbarberstyle.com',
+    priceRange: '$$',
+    aggregateRating: { '@type': 'AggregateRating', ratingValue: '5.0', reviewCount: '3', bestRating: '5' },
+    review: reviewsData.map(function(r) {
+      return {
+        '@type': 'Review',
+        author: { '@type': 'Person', name: r.author },
+        reviewRating: { '@type': 'Rating', ratingValue: '5', bestRating: '5' },
+        reviewBody: r.text
+      };
+    })
+  }) + '</script>';
+
+  // ── JSON-LD: FAQ con servicios y precios (CLP) ──
+  const faqLd = '<script type="application/ld+json">' + JSON.stringify({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: servicios.map(function(s) {
+      return {
+        '@type': 'Question',
+        name: '¿Cuánto cuesta ' + s.nombre + ' en Edwin Fox Barber Style?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: s.nombre + ' tiene un valor de $' + s.precio.toLocaleString('es-CL') + ' CLP. ' + s.descripcion
+        }
+      };
+    })
+  }) + '</script>';
+
   const head = '<!DOCTYPE html>' +
     '<html lang="es">' +
     '<head>' +
@@ -385,7 +427,8 @@ function buildHTML(servicios) {
     '<meta property="og:type" content="website">' +
     '<meta property="og:locale" content="es_CL">' +
     '<meta http-equiv="X-Content-Type-Options" content="nosniff">' +
-    '<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"Edwin Fox Barber Style","telephone":"+56986505521","address":{"@type":"PostalAddress","addressLocality":"Maipú","addressRegion":"Región Metropolitana","addressCountry":"CL"},"url":"https://edwinfoxbarberstyle.com"}</script>' +
+    businessLd +
+    faqLd +
     '<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({"gtm.start":new Date().getTime(),event:"gtm.js"});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!="dataLayer"?"&l="+l:"";j.async=true;j.src="https://www.googletagmanager.com/gtm.js?id="+i+dl;f.parentNode.insertBefore(j,f);})(window,document,"script","dataLayer","GTM-KFKP424L");</script>' +
     '<script async src="https://www.googletagmanager.com/gtag/js?id=G-ZV8NH5X4G1"></script>' +
     '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-ZV8NH5X4G1",{"anonymize_ip":true});</script>' +
@@ -564,9 +607,9 @@ function buildHTML(servicios) {
     '<section class="hero">' +
     '<p class="hero-ey">Est. Maipú · Santiago · Chile</p>' +
     '<p class="hero-the">The</p>' +
-    '<h1 class="hero-main">Barber</h1>' +
+    '<h1 class="hero-main">Barbería Edwin Fox | Maipú</h1>' +
     '<div class="hero-line"></div>' +
-    '<p class="hero-sub">Edwin Fox Barber Style — Modern Heritage · Alto estándar</p>' +
+    '<p class="hero-sub">Edwin Fox Barber Style — Barbería en Maipú, Santiago · Modern Heritage · Alto estándar</p>' +
     '<div class="hero-acts">' +
     '<a href="#reservas" class="btn-p">Reservar ahora</a>' +
     '<a href="' + SETMORE_URL + '" class="btn-s" target="_blank" rel="noopener">Reserva online →</a>' +
@@ -579,6 +622,7 @@ function buildHTML(servicios) {
     // SERVICES
     '<section class="services" id="servicios"><div class="inner">' +
     '<div class="svc-hdr rv"><p class="sec-label">Servicios</p><h2 class="sec-title">Cada servicio, una <em>intención</em></h2></div>' +
+    '<p class="svc-intro rv" style="text-align:center;max-width:640px;margin:0 auto 2.5rem;font-size:.86rem;color:var(--muted);line-height:1.9">Somos una barbería en Maipú especializada en corte de pelo en Santiago, perfilado de barba y estilo masculino. Cada servicio combina técnica, detalle y producto profesional.</p>' +
     '<div class="svc-grid">' +
     servicios.map(function(s) {
       return '<div class="svc-card rv"><div class="svc-sym">◈</div><h3 class="svc-name">' + s.nombre + '</h3><p class="svc-desc">' + s.descripcion + '</p><span class="svc-price">$' + s.precio.toLocaleString('es-CL') + '</span></div>';
@@ -710,6 +754,7 @@ function buildHTML(servicios) {
     'document.querySelectorAll(".rv").forEach(function(el){obs.observe(el)});' +
 
     // Gallery loader
+    'var svcNames=' + JSON.stringify(servicios.map(function(s){ return s.nombre; })) + ';' +
     'async function loadGallery(){' +
     'try{' +
     'var r=await fetch("/api/galeria");' +
@@ -717,12 +762,14 @@ function buildHTML(servicios) {
     'var g=document.getElementById("gallery-grid");' +
     'if(!d.items||d.items.length===0)return;' +
     'g.innerHTML="";' +
-    'd.items.forEach(function(item){' +
+    'd.items.forEach(function(item,i){' +
     'var a=document.createElement("a");' +
     'a.className="gallery-item";' +
     'a.href="#";' +
+    'var svc=svcNames.length?svcNames[i%svcNames.length]:"Corte";' +
+    'var alt=svc+" — Barbería Edwin Fox, Maipú";' +
     'var imgUrl="/img/"+item.key+"?width=800&quality=85&format=auto";' +
-    'a.innerHTML="<img src=\\"/img/"+item.key+"?width=400&quality=80&format=auto\\" alt=\\"Trabajo en Edwin Fox\\" loading=\\"lazy\\" width=\\"400\\">";' +
+    'a.innerHTML="<img src=\\"/img/"+item.key+"?width=400&quality=80&format=auto\\" alt=\\""+alt+"\\" loading=\\"lazy\\" width=\\"400\\">";' +
     'a.addEventListener("click",function(e){e.preventDefault();openLightbox(imgUrl)});' +
     'g.appendChild(a);' +
     '})' +
