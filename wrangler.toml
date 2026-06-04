@@ -2,7 +2,6 @@ name = "edwinfoxbarberstyle-web"
 main = "worker.js"
 compatibility_date = "2026-05-30"
 
-# ── R2 BUCKETS ──
 [[r2_buckets]]
 binding = "EDWIN_ASSETS"
 bucket_name = "edwin-assets"
@@ -15,6 +14,5 @@ bucket_name = "edwin-media"
 binding = "EDWIN_DATA"
 bucket_name = "edwin-data"
 
-# ── CACHE ──
 [assets]
 not_found_handling = "404-page"
