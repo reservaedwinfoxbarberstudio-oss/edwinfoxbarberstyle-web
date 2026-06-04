@@ -15,4 +15,5 @@ binding = "EDWIN_DATA"
 bucket_name = "edwin-data"
 
 [assets]
+directory = "."
 not_found_handling = "404-page"
