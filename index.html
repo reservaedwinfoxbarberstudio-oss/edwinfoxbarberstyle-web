@@ -31,12 +31,12 @@
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZV8NH5X4G1',{'anonymize_ip':true});</script>
 <script>!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');fbq('init','1225408969456443');fbq('track','PageView');</script>
 <noscript><img height="1" width="1" style="display:none" alt="" src="https://www.facebook.com/tr?id=1225408969456443&ev=PageView&noscript=1"/></noscript>
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" as="style">
+<link rel="preload" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&display=swap" as="style">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#0F0E0C;--s1:#161412;--s2:#1E1C1A;--gold:#C8A96A;--gold2:#7A6340;--text:#F2EDE4;--muted:#5A5550;--b:rgba(200,169,106,.08);--b2:rgba(200,169,106,.18);--serif:'Cormorant Garamond',Georgia,serif;--sans:'Outfit',sans-serif}
+:root{--bg:#0F0E0C;--s1:#161412;--s2:#1E1C1A;--gold:#D4AF37;--gold2:#8B6914;--text:#F5F0E8;--muted:#6B6560;--b:rgba(212,175,55,.08);--b2:rgba(212,175,55,.22);--serif:'Playfair Display',Georgia,serif;--sans:'Inter',system-ui,sans-serif}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.7;overflow-x:hidden}
@@ -196,6 +196,25 @@ nav{padding:1rem 1.2rem}
 footer{flex-direction:column;gap:.6rem;text-align:center}
 .foot-loc{text-align:center}
 }
+
+/* ── MOTION ENHANCED STYLES ── */
+.hero-main{font-size:clamp(5.5rem,15vw,12rem);letter-spacing:-.03em}
+.hero-the{font-size:clamp(1.4rem,3.5vw,2.4rem);letter-spacing:.2em;text-transform:uppercase;font-style:normal;font-weight:400;color:var(--gold);font-family:var(--sans)}
+.svc-card{position:relative;overflow:hidden}
+.svc-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(212,175,55,.04) 0%,transparent 60%);opacity:0;transition:opacity .4s}
+.svc-card:hover::before{opacity:1}
+.svc-sym{font-size:1.3rem;transition:transform .3s,color .3s}
+.svc-card:hover .svc-sym{transform:scale(1.2);color:var(--gold)}
+.btn-p{position:relative;overflow:hidden}
+.btn-p::after{content:'';position:absolute;inset:0;background:rgba(255,255,255,.1);transform:translateX(-100%);transition:transform .3s}
+.btn-p:hover::after{transform:translateX(0)}
+.nav-links a::after{content:'';display:block;height:.5px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .3s}
+.nav-links a:hover::after{transform:scaleX(1)}
+.rev-card{transition:border-color .3s,transform .3s}
+.rev-card:hover{border-color:rgba(212,175,55,.3);transform:translateY(-2px)}
+.stat-n{transition:color .3s}
+.stat:hover .stat-n{color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,.3)}
+[data-motion]{opacity:0}
 </style>
 </head>
 <body>
@@ -218,10 +237,10 @@ footer{flex-direction:column;gap:.6rem;text-align:center}
 
 <section class="hero">
   <p class="hero-eyebrow">Est. Maipú · Santiago · Chile</p>
-  <p class="hero-the">The</p>
-  <h1 class="hero-main">Barber</h1>
-  <div class="hero-line"></div>
-  <p class="hero-sub">Edwin Fox Barber Style — Modern Heritage · Alto estándar</p>
+  <p data-motion="fade-up" data-delay="1" style="opacity:0;transform:translateY(30px)" class="hero-the">The</p>
+  <h1 data-motion="fade-up" data-delay="2" style="opacity:0;transform:translateY(30px)" class="hero-main">Barber</h1>
+  <div data-motion="fade-up" data-delay="3" style="opacity:0;transform:translateY(30px)" class="hero-line"></div>
+  <p data-motion="fade-up" data-delay="4" style="opacity:0;transform:translateY(30px)" class="hero-sub">Edwin Fox Barber Style — Modern Heritage · Alto estándar</p>
   <div class="hero-actions">
     <a href="https://wa.me/56986505521?text=Hola%2C%20quiero%20reservar%20una%20hora%20en%20Edwin%20Fox%20Barber%20Style" class="btn-p" target="_blank" rel="noopener">Reservar por WhatsApp</a>
     <a href="https://jmarquezbarber.setmore.com/edwin-fox-barber" class="btn-s" target="_blank" rel="noopener">Reserva online →</a>
@@ -361,7 +380,7 @@ footer{flex-direction:column;gap:.6rem;text-align:center}
   <span class="foot-loc">Maipú · Santiago · Chile</span>
 </footer>
 
-<div class="floats">
+<div class="floats" style="opacity:0;transform:translateX(20px)">
   <a href="https://www.instagram.com/edwinfoxbarberstyle/" class="float-btn float-ig" target="_blank" rel="noopener" aria-label="Instagram">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
   </a>
@@ -371,10 +390,64 @@ footer{flex-direction:column;gap:.6rem;text-align:center}
 </div>
 
 <script>
-const nav=document.getElementById('nav');
-window.addEventListener('scroll',()=>nav.classList.toggle('sc',scrollY>40));
-const obs=new IntersectionObserver((e)=>e.forEach((el,i)=>{if(el.isIntersecting){setTimeout(()=>el.target.classList.add('on'),i*70);obs.unobserve(el.target)}}),{threshold:.1});
-document.querySelectorAll('.rv').forEach(el=>obs.observe(el));
+// Nav scroll
+var nav = document.getElementById('nav');
+window.addEventListener('scroll', function() {
+  nav.classList.toggle('sc', window.scrollY > 40);
+});
+
+// Hero staggered entrance
+var heroEls = document.querySelectorAll('[data-motion="fade-up"]');
+heroEls.forEach(function(el) {
+  var delay = parseInt(el.dataset.delay || 0) * 150;
+  setTimeout(function() {
+    el.style.transition = 'opacity 0.8s cubic-bezier(0.25,0.1,0.25,1), transform 0.8s cubic-bezier(0.25,0.1,0.25,1)';
+    el.style.opacity = '1';
+    el.style.transform = 'translateY(0)';
+  }, 200 + delay);
+});
+
+// Scroll reveals
+var revEls = document.querySelectorAll('.rv');
+var revObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry, i) {
+    if (entry.isIntersecting) {
+      setTimeout(function() {
+        entry.target.classList.add('on');
+      }, (i % 4) * 80);
+      revObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1 });
+revEls.forEach(function(el) { revObs.observe(el); });
+
+// Stats spring reveal
+var statEls = document.querySelectorAll('.stat-n');
+var statObs = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry) {
+    if (entry.isIntersecting) {
+      entry.target.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+      entry.target.style.opacity = '1';
+      entry.target.style.transform = 'scale(1)';
+      statObs.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
+statEls.forEach(function(el) {
+  el.style.opacity = '0';
+  el.style.transform = 'scale(0.8)';
+  statObs.observe(el);
+});
+
+// Floats entrance
+setTimeout(function() {
+  var floats = document.querySelector('.floats');
+  if (floats) {
+    floats.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+    floats.style.opacity = '1';
+    floats.style.transform = 'translateX(0)';
+  }
+}, 1500);
 </script>
 </body>
 </html>
