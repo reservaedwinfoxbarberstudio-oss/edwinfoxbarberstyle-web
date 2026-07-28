@@ -1,5 +1,158 @@
 // Edwin Fox Barber Style — Cloudflare Worker
-// Arquitectura: R2 (assets/media/data) + Cloudflare Images URL + APIs
+// Arquitectura: R2 (assets/media/data) + Cloudflare Images URL + APIs// Edwin Fox Barber Style — Cloudflare Worker
+// Sirve index.html como asset estático, APIs desde R2
+
+const WA = '56986505521';
+const SETMORE = 'https://jmarquezbarber.setmore.com/edwin-fox-barber';
+
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const path = url.pathname;
+    const method = request.method;
+
+    const cors = {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type',
+    };
+
+    if (method === 'OPTIONS') return new Response(null, { headers: cors });
+
+    // ── APIs ──
+    if (path === '/api/servicios') return getServicios(env, cors);
+    if (path === '/api/horarios')  return getHorarios(env, cors);
+    if (path === '/api/galeria')   return getGaleria(env, cors);
+
+    // ── IMÁGENES R2 ──
+    if (path.startsWith('/img/')) return serveImage(url, env);
+
+    // ── ADMIN ──
+    if (path === '/admin' && method === 'GET') return serveAdmin();
+    if (path === '/admin/upload'     && method === 'POST') return adminUpload(request, env);
+    if (path === '/admin/import-url' && method === 'POST') return adminImportUrl(request, env);
+
+    // ── TODO LO DEMÁS: dejar que Cloudflare sirva los assets estáticos ──
+    // (index.html, favicon.svg, og-image.jpg, etc.)
+    return env.ASSETS.fetch(request);
+  }
+};
+
+// ── SERVICIOS ──
+async function getServicios(env, cors) {
+  const defaults = [
+    { id:1, nombre:'Corte básico caballero',   precio:12000, duracion:45 },
+    { id:2, nombre:'Corte Full caballero',      precio:15990, duracion:45 },
+    { id:3, nombre:'Perfilado de barba',        precio:12000, duracion:45 },
+    { id:4, nombre:'Corte + Barba',             precio:18000, duracion:60 },
+    { id:5, nombre:'Corte Full + Barba',        precio:20000, duracion:60 },
+    { id:6, nombre:'Corte femenino',            precio:18000, duracion:60 },
+    { id:7, nombre:'Corte básico niños',        precio:12000, duracion:45 },
+    { id:8, nombre:'Paquete Premium VIP',       precio:24990, duracion:60 },
+  ];
+  let data = defaults;
+  try {
+    if (env.EDWIN_DATA) {
+      const obj = await env.EDWIN_DATA.get('servicios.json');
+      if (obj) data = JSON.parse(await obj.text());
+    }
+  } catch(_) {}
+  return new Response(JSON.stringify(data), {
+    headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' }
+  });
+}
+
+// ── HORARIOS ──
+async function getHorarios(env, cors) {
+  const defaults = {
+    lunes:{abre:'10:00',cierra:'20:00',activo:true},
+    martes:{abre:'10:00',cierra:'20:00',activo:true},
+    miercoles:{abre:'10:00',cierra:'20:00',activo:true},
+    jueves:{abre:'10:00',cierra:'20:00',activo:true},
+    viernes:{abre:'10:00',cierra:'20:00',activo:true},
+    sabado:{abre:'09:00',cierra:'18:00',activo:true},
+    domingo:{activo:false}
+  };
+  let data = defaults;
+  try {
+    if (env.EDWIN_DATA) {
+      const obj = await env.EDWIN_DATA.get('horarios.json');
+      if (obj) data = JSON.parse(await obj.text());
+    }
+  } catch(_) {}
+  return new Response(JSON.stringify(data), {
+    headers: { ...cors, 'Content-Type': 'application/json', 'Cache-Control': 'public, max-age=3600' }
+  });
+}
+
+// ── GALERÍA ──
+async function getGaleria(env, cors) {
+  const items = [];
+  try {
+    if (env.EDWIN_MEDIA) {
+      const list = await env.EDWIN_MEDIA.list({ prefix: 'gallery/' });
+      for (const obj of list.objects) {
+        items.push({ key: obj.key, size: obj.size, uploaded: obj.uploaded });
+      }
+    }
+  } catch(_) {}
+  return new Response(JSON.stringify({ items, total: items.length }), {
+    headers: { ...cors, 'Content-Type': 'application/json' }
+  });
+}
+
+// ── IMAGEN R2 ──
+async function serveImage(url, env) {
+  const key = decodeURIComponent(url.pathname.replace('/img/', ''));
+  try {
+    const obj = await env.EDWIN_MEDIA.get(key);
+    if (!obj) return new Response('No encontrada', { status: 404 });
+    return new Response(obj.body, {
+      headers: {
+        'Content-Type': obj.httpMetadata?.contentType || 'image/jpeg',
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      }
+    });
+  } catch(err) {
+    return new Response('Error: ' + err.message, { status: 500 });
+  }
+}
+
+// ── ADMIN UPLOAD ──
+async function adminUpload(request, env) {
+  const fd = await request.formData();
+  const file = fd.get('file');
+  const key  = fd.get('key') || ('gallery/' + Date.now() + '.jpg');
+  if (!file) return new Response(JSON.stringify({ ok:false, error:'Falta archivo' }), { status:400, headers:{'Content-Type':'application/json'} });
+  try {
+    await env.EDWIN_MEDIA.put(key, await file.arrayBuffer(), { httpMetadata:{ contentType: file.type || 'image/jpeg' } });
+    return new Response(JSON.stringify({ ok:true, key }), { headers:{'Content-Type':'application/json'} });
+  } catch(err) {
+    return new Response(JSON.stringify({ ok:false, error:err.message }), { status:500, headers:{'Content-Type':'application/json'} });
+  }
+}
+
+// ── ADMIN IMPORT URL ──
+async function adminImportUrl(request, env) {
+  const { url, key } = await request.json();
+  if (!url || !key) return new Response(JSON.stringify({ ok:false, error:'Faltan url y key' }), { status:400, headers:{'Content-Type':'application/json'} });
+  try {
+    const img  = await fetch(url);
+    const blob = await img.arrayBuffer();
+    const ct   = img.headers.get('Content-Type') || 'image/jpeg';
+    await env.EDWIN_MEDIA.put(key, blob, { httpMetadata:{ contentType: ct } });
+    return new Response(JSON.stringify({ ok:true, key }), { headers:{'Content-Type':'application/json'} });
+  } catch(err) {
+    return new Response(JSON.stringify({ ok:false, error:err.message }), { status:500, headers:{'Content-Type':'application/json'} });
+  }
+}
+
+// ── ADMIN PANEL ──
+function serveAdmin() {
+  const html = `<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin — Edwin Fox</title><style>*{box-sizing:border-box;margin:0;padding:0}body{font-family:system-ui,sans-serif;background:#0A0A0A;color:#F5F0E8}header{background:#111;border-bottom:1px solid rgba(212,175,55,.2);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between}.logo{color:#D4AF37;font-size:1rem;font-weight:600}.badge{background:#D4AF37;color:#0A0A0A;padding:3px 10px;border-radius:20px;font-size:.72rem;font-weight:700}main{max-width:860px;margin:2rem auto;padding:0 1.5rem;display:grid;gap:1.2rem}.card{background:#111;border:.5px solid rgba(212,175,55,.15);border-radius:6px;padding:1.5rem}.card h2{color:#D4AF37;font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:1.2rem}input,select{width:100%;background:#1A1A1A;border:.5px solid rgba(212,175,55,.25);color:#F5F0E8;padding:.65rem 1rem;font-size:.85rem;margin-bottom:.7rem;border-radius:2px;outline:none}input:focus,select:focus{border-color:#D4AF37}button{background:#D4AF37;color:#0A0A0A;border:none;padding:.7rem 1.5rem;font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;border-radius:2px}.msg{padding:.6rem 1rem;border-radius:2px;font-size:.8rem;margin-top:.7rem;display:none}.ok{display:block;background:rgba(212,175,55,.1);border:.5px solid #D4AF37;color:#D4AF37}.err{display:block;background:rgba(224,82,82,.1);border:.5px solid #E05252;color:#E05252}.grid-preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:.5rem;margin-top:1rem}.grid-preview img{width:100%;aspect-ratio:1;object-fit:cover;border:.5px solid rgba(212,175,55,.15)}.api-item{display:flex;align-items:center;justify-content:space-between;padding:.6rem 1rem;background:#1A1A1A;border-radius:2px;margin-bottom:.5rem}.api-item code{color:#D4AF37;font-size:.78rem}.api-btn{background:transparent;border:.5px solid rgba(212,175,55,.3);color:#D4AF37;padding:.3rem .8rem;font-size:.7rem;cursor:pointer}.api-out{font-size:.72rem;color:#777;margin-top:.5rem;white-space:pre-wrap;max-height:120px;overflow:auto;background:#0A0A0A;padding:.5rem;display:none}</style></head><body><header><span class="logo">EDWIN FOX — ADMIN</span><span class="badge">✅ Zero Trust Activo</span></header><main><div class="card"><h2>📷 Subir imagen</h2><input type="file" id="img-file" accept="image/*"><input type="text" id="img-key" placeholder="gallery/foto-01.jpg"><button onclick="uploadImg()">Subir imagen</button><div class="msg" id="msg-upload"></div><div class="grid-preview" id="preview"></div></div><div class="card"><h2>🔗 Importar desde URL</h2><input type="text" id="import-url" placeholder="https://ejemplo.com/foto.jpg"><input type="text" id="import-key" placeholder="gallery/importada.jpg"><button onclick="importUrl()">Importar</button><div class="msg" id="msg-import"></div></div><div class="card"><h2>🖼️ Galería R2</h2><button onclick="loadGallery()">Cargar galería</button><div class="grid-preview" id="admin-gallery"></div></div><div class="card"><h2>⚙️ APIs</h2><div class="api-item"><code>GET /api/servicios</code><button class="api-btn" onclick="testApi('/api/servicios','out-svc')">Test</button></div><pre class="api-out" id="out-svc"></pre><div class="api-item"><code>GET /api/horarios</code><button class="api-btn" onclick="testApi('/api/horarios','out-hor')">Test</button></div><pre class="api-out" id="out-hor"></pre><div class="api-item"><code>GET /api/galeria</code><button class="api-btn" onclick="testApi('/api/galeria','out-gal')">Test</button></div><pre class="api-out" id="out-gal"></pre></div></main><script>async function uploadImg(){var f=document.getElementById('img-file').files[0],k=document.getElementById('img-key').value||('gallery/'+Date.now()+'.jpg'),m=document.getElementById('msg-upload');if(!f){m.className='msg err';m.textContent='Selecciona un archivo';return}var fd=new FormData();fd.append('file',f);fd.append('key',k);try{var r=await fetch('/admin/upload',{method:'POST',body:fd}),d=await r.json();m.className=d.ok?'msg ok':'msg err';m.textContent=d.ok?'✅ '+d.key:'Error: '+d.error}catch(e){m.className='msg err';m.textContent='Error: '+e.message}}async function importUrl(){var url=document.getElementById('import-url').value.trim(),key=document.getElementById('import-key').value.trim(),m=document.getElementById('msg-import');if(!url||!key){m.className='msg err';m.textContent='URL y nombre requeridos';return}try{var r=await fetch('/admin/import-url',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({url,key})}),d=await r.json();m.className=d.ok?'msg ok':'msg err';m.textContent=d.ok?'✅ '+d.key:'Error: '+d.error}catch(e){m.className='msg err';m.textContent='Error: '+e.message}}async function loadGallery(){var g=document.getElementById('admin-gallery');g.innerHTML='Cargando...';try{var r=await fetch('/api/galeria'),d=await r.json();if(!d.items||!d.items.length){g.innerHTML='<p style="color:#555;font-size:.8rem">Sin imágenes aún.</p>';return}g.innerHTML='';d.items.forEach(function(item){var img=document.createElement('img');img.src='/img/'+item.key;img.alt=item.key;g.appendChild(img)})}catch(e){g.innerHTML='<p style="color:#E05252">Error: '+e.message+'</p>'}}async function testApi(path,outId){var el=document.getElementById(outId);el.style.display='block';el.textContent='Cargando...';try{var r=await fetch(path),d=await r.json();el.textContent=JSON.stringify(d,null,2)}catch(e){el.textContent='Error: '+e.message}}</script></body></html>`;
+  return new Response(html, { headers: { 'Content-Type': 'text/html;charset=utf-8', 'X-Robots-Tag': 'noindex' } });
+}
+
 
 const CACHE_HTML    = 60;
 const CACHE_MEDIA   = 604800;
