@@ -1,9 +1,4 @@
 name = "edwinfoxbarberstyle-web"
-compatibility_date = "2026-07-27"
-
-[assets]
-directory = "./"
-not_found_handling = "404-page"name = "edwinfoxbarberstyle-web"
 main = "worker.js"
 compatibility_date = "2026-07-27"
 
@@ -24,4 +19,3 @@ bucket_name = "edwin-media"
 [[r2_buckets]]
 binding = "EDWIN_DATA"
 bucket_name = "edwin-data"
-
