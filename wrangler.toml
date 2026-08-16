@@ -1,5 +1,4 @@
 name = "edwinfoxbarberstyle-web"
-main = "worker.js"
 compatibility_date = "2026-07-27"
 
 [assets]
@@ -7,15 +6,3 @@ directory = "./"
 not_found_handling = "404-page"
 html_handling = "auto-trailing-slash"
 serve_directly = true
-
-[[r2_buckets]]
-binding = "EDWIN_ASSETS"
-bucket_name = "edwin-assets"
-
-[[r2_buckets]]
-binding = "EDWIN_MEDIA"
-bucket_name = "edwin-media"
-
-[[r2_buckets]]
-binding = "EDWIN_DATA"
-bucket_name = "edwin-data"
