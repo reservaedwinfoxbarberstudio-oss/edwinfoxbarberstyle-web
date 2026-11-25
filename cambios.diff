@@ -1,0 +1,286 @@
+diff --git a/README.md b/README.md
+index 9a97487..d1188c8 100644
+--- a/README.md
++++ b/README.md
+@@ -1,7 +1,7 @@
+ # Edwin Fox Barber Style — Sitio Web Oficial
+ 
+ 🌐 **edwinfoxbarberstyle.com**  
+-Barbería de alto estándar · Maipú, Santiago, Chile
++Barbería de alto estándar · Santiago Centro y Lo Barnechea, Chile
+ 
+ ---
+ 
+@@ -10,7 +10,7 @@ Barbería de alto estándar · Maipú, Santiago, Chile
+ - **Hosting**: Cloudflare Pages (gratis, CDN global)
+ - **DNS / SSL**: Cloudflare (automático)
+ - **CRM**: HubSpot Free
+-- **Reservas**: WhatsApp directo
++- **Reservas**: Setmore (Santiago Centro), AgendaPro (Lo Barnechea) y WhatsApp
+ 
+ ## Estructura del repositorio
+ 
+diff --git a/favicon (2).svg b/favicon.svg
+similarity index 100%
+rename from favicon (2).svg
+rename to favicon.svg
+diff --git a/index.html b/index.html
+index 212f06a..bbd25d3 100644
+--- a/index.html
++++ b/index.html
+@@ -3,12 +3,12 @@
+ <head>
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+-<title>Edwin Fox Barber Style | Barbería Premium Maipú</title>
+-<meta name="description" content="Edwin Fox Barber Style — Barbería de alto estándar en Maipú, Santiago. Cortes masculinos, femeninos e infantiles. 742 Av. Parque Central Oriente.">
++<title>Edwin Fox Barber Style | Barbero Profesional en Santiago y Lo Barnechea</title>
++<meta name="description" content="Barbero profesional en Santiago Centro (lunes y martes) y Lo Barnechea (miércoles a domingo). Cortes masculinos, femeninos e infantiles, barba. Reserva tu hora online.">
+ <meta name="robots" content="index, follow">
+ <link rel="canonical" href="https://edwinfoxbarberstyle.com/">
+ <meta property="og:title" content="Edwin Fox Barber Style">
+-<meta property="og:description" content="Barbería premium en Maipú, Santiago. Modern Heritage.">
++<meta property="og:description" content="Barbero profesional en Santiago Centro y Lo Barnechea. Modern Heritage.">
+ <meta property="og:url" content="https://edwinfoxbarberstyle.com">
+ <meta property="og:image" content="https://edwinfoxbarberstyle.com/og-image.jpg">
+ <meta property="og:type" content="website">
+@@ -16,7 +16,7 @@
+ <meta name="theme-color" content="#0A0A0A">
+ <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+ <link rel="icon" type="image/png" href="/favicon.png">
+-<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"Edwin Fox Barber Style","telephone":"+56986505521","email":"hola@edwinfoxbarberstyle.com","url":"https://edwinfoxbarberstyle.com","priceRange":"$$","address":{"@type":"PostalAddress","streetAddress":"742 Av. Parque Central Oriente","addressLocality":"Maipú","addressRegion":"Región Metropolitana","postalCode":"9250000","addressCountry":"CL"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","bestRating":"5","reviewCount":"70"},"sameAs":["https://www.instagram.com/edwinfoxbarberstyle/","https://share.google/YPLEVo3zPO76PmQfY"]}</script>
++<script type="application/ld+json">{"@context":"https://schema.org","@type":"HairSalon","name":"Edwin Fox Barber Style","telephone":"+56986505521","email":"hola@edwinfoxbarberstyle.com","url":"https://edwinfoxbarberstyle.com","priceRange":"$$","areaServed":[{"@type":"City","name":"Santiago"},{"@type":"City","name":"Lo Barnechea"}],"address":{"@type":"PostalAddress","addressLocality":"Lo Barnechea","addressRegion":"Región Metropolitana","addressCountry":"CL"},"aggregateRating":{"@type":"AggregateRating","ratingValue":"4.9","bestRating":"5","reviewCount":"70"},"sameAs":["https://www.instagram.com/edwinfoxbarberstyle/","https://share.google/yfvP0dNiprBdXGKvK"]}</script>
+ <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KFKP424L');</script>
+ <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZV8NH5X4G1"></script>
+ <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-ZV8NH5X4G1',{'anonymize_ip':true});</script>
+@@ -338,6 +338,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+   padding:1.5rem 1.5rem
+ }
+ .svc-price{display:none}
++.svc-row .btn-outline{grid-column:2/-1;justify-self:start}
+ .svc-name{font-size:1.1rem}
+ .svc-desc{font-size:.72rem}
+ 
+@@ -363,7 +364,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+ /* LOCATION */
+ .location{padding:5rem 1.5rem}
+ .loc-grid{grid-template-columns:1fr;gap:3rem}
+-.loc-map{height:220px;padding:2rem}
++.loc-map{height:auto;min-height:220px;padding:2rem}
+ 
+ /* FOOTER */
+ .footer-bar{flex-direction:column;text-align:center;padding:2rem 1.5rem;gap:1.2rem}
+@@ -435,7 +436,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+ <section class="hero">
+   <div class="hero-counter" aria-hidden="true">EF</div>
+   <div class="hero-top">
+-    <p class="hero-top-label">Est. Maipú · Santiago · Chile</p>
++    <p class="hero-top-label">Santiago · Lo Barnechea · Chile</p>
+     <h1 class="hero-h1">
+       <span class="line">THE</span>
+       <span class="line">BARBER</span>
+@@ -443,7 +444,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+     </h1>
+   </div>
+   <div class="hero-bottom">
+-    <p class="hero-desc">Edwin Fox Barber Style — Modern Heritage.<br>Alto estándar en Maipú, Santiago de Chile.<br>Cortes con criterio. Barba con precisión.</p>
++    <p class="hero-desc">Edwin Fox Barber Style — Modern Heritage.<br>Alto estándar en Santiago y Lo Barnechea.<br>Cortes con criterio. Barba con precisión.</p>
+     <div class="hero-actions">
+       <a href="#reservas" class="btn-gold">Reservar hora</a>
+       <a href="#servicios" class="btn-ghost">Ver servicios →</a>
+@@ -465,7 +466,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+     <div class="marquee-item"><strong>Corte Full + Barba</strong><span>$20.000</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><strong>Paquete Premium</strong><span>$24.990</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><span>4.9 ★ · 70 reseñas Google</span><div class="marquee-dot"></div></div>
+-    <div class="marquee-item"><span>742 Av. Parque Central · Maipú</span><div class="marquee-dot"></div></div>
++    <div class="marquee-item"><span>Santiago Centro · Lo Barnechea</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><strong>Corte básico</strong><span>$12.000</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><strong>Corte Full</strong><span>$15.990</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><strong>Perfilado de barba</strong><span>$12.000</span><div class="marquee-dot"></div></div>
+@@ -473,7 +474,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+     <div class="marquee-item"><strong>Corte Full + Barba</strong><span>$20.000</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><strong>Paquete Premium</strong><span>$24.990</span><div class="marquee-dot"></div></div>
+     <div class="marquee-item"><span>4.9 ★ · 70 reseñas Google</span><div class="marquee-dot"></div></div>
+-    <div class="marquee-item"><span>742 Av. Parque Central · Maipú</span><div class="marquee-dot"></div></div>
++    <div class="marquee-item"><span>Santiago Centro · Lo Barnechea</span><div class="marquee-dot"></div></div>
+   </div>
+ </div>
+ 
+@@ -485,15 +486,15 @@ nav.scrolled{padding:.8rem 1.5rem}
+     <h2 class="about-h2 rv">Modern <em>Heritage</em></h2>
+     <div class="about-text rv">
+       <p>En Edwin Fox Barber Style entendemos que un buen corte no es solo técnica — es <strong>criterio estético</strong>. Trabajamos con hombres, mujeres y niños que valoran el detalle.</p>
+-      <p>Ubicados en <strong>J. Márquez Barber Shop, Maipú</strong>. Un espacio pensado para quienes no se conforman con lo ordinario.</p>
+-      <p>Nuestro equipo, liderado por <strong>Edwin</strong> junto a <strong>José</strong>, combina formación técnica con sensibilidad visual para un resultado que supera lo esperado.</p>
++      <p>Atención personalizada en <strong>Santiago Centro</strong> (lunes y martes) y en <strong>The One Barber Club, Lo Barnechea</strong> (miércoles a domingo). Pensado para quienes no se conforman con lo ordinario.</p>
++      <p>Cada servicio lo realiza <strong>Edwin</strong>, quien combina formación técnica con sensibilidad visual para un resultado que supera lo esperado.</p>
+     </div>
+   </div>
+   <div class="about-right">
+     <div class="about-stats rv-right">
+       <div class="stat-box"><div class="stat-num">13</div><div class="stat-lbl">Servicios</div></div>
+       <div class="stat-box"><div class="stat-num">4.9</div><div class="stat-lbl">Rating Google</div></div>
+-      <div class="stat-box"><div class="stat-num">2</div><div class="stat-lbl">Especialistas</div></div>
++      <div class="stat-box"><div class="stat-num">2</div><div class="stat-lbl">Ubicaciones</div></div>
+       <div class="stat-box"><div class="stat-num">70+</div><div class="stat-lbl">Reseñas</div></div>
+     </div>
+     <div class="about-principles rv-right">
+@@ -511,7 +512,10 @@ nav.scrolled{padding:.8rem 1.5rem}
+       <p class="about-label" style="margin-bottom:1rem">02 — Servicios</p>
+       <h2 class="about-h2" style="margin-bottom:0">Cada servicio,<br>una <em>intención</em></h2>
+     </div>
+-    <a href="https://jmarquezbarber.setmore.com/edwin-fox-barber" class="btn-outline" target="_blank" rel="noopener">Reservar online →</a>
++    <div style="display:flex;flex-direction:column;gap:.8rem;text-align:center">
++      <a href="https://edwinfoxbarberstyle-regionmetropolitana.setmore.com" class="btn-outline" target="_blank" rel="noopener noreferrer">Reservar en Santiago Centro</a>
++      <a href="https://theonebarberclub.site.agendapro.com/cl/sucursal/567057/profesional/944368" class="btn-outline" target="_blank" rel="noopener noreferrer">Reservar en Lo Barnechea</a>
++    </div>
+   </div>
+   <div class="svc-list">
+     <div class="svc-row rv"><span class="svc-idx">01</span><div class="svc-info"><span class="svc-name">Corte básico caballero</span><span class="svc-desc">Fade, undercut, clásico o contemporáneo. Finalizado con producto de acabado.</span></div><span class="svc-dur">45 min</span><span class="svc-price">$12.000</span></div>
+@@ -530,16 +534,21 @@ nav.scrolled{padding:.8rem 1.5rem}
+   <div class="rv-left">
+     <p class="booking-label">03 — Reservas</p>
+     <h2 class="booking-h2">Reserva tu <em>hora</em></h2>
+-    <p class="booking-desc">Elige cómo prefieres agendar. Respuesta inmediata por WhatsApp o reserva directa en mi perfil Setmore.</p>
++    <p class="booking-desc">Elige tu ubicación y reserva directo, o escríbeme por WhatsApp.</p>
+     <div class="booking-opts">
+       <a href="https://wa.me/56986505521?text=Hola%2C%20quiero%20reservar%20una%20hora%20en%20Edwin%20Fox%20Barber%20Style" class="booking-opt" target="_blank" rel="noopener">
+         <div class="booking-opt-icon">💬</div>
+         <div class="booking-opt-info"><span class="booking-opt-title">WhatsApp directo</span><span class="booking-opt-sub">+56 9 8650 5521 · Respuesta inmediata</span></div>
+         <span class="booking-opt-arrow">→</span>
+       </a>
+-      <a href="https://jmarquezbarber.setmore.com/edwin-fox-barber" class="booking-opt" target="_blank" rel="noopener">
++      <a href="https://edwinfoxbarberstyle-regionmetropolitana.setmore.com" class="booking-opt" target="_blank" rel="noopener noreferrer">
+         <div class="booking-opt-icon">📅</div>
+-        <div class="booking-opt-info"><span class="booking-opt-title">Reserva online — Setmore</span><span class="booking-opt-sub">Elige fecha y hora disponible</span></div>
++        <div class="booking-opt-info"><span class="booking-opt-title">Reservar en Santiago Centro</span><span class="booking-opt-sub">Lunes y martes · 10:00 – 20:00 hrs</span></div>
++        <span class="booking-opt-arrow">→</span>
++      </a>
++      <a href="https://theonebarberclub.site.agendapro.com/cl/sucursal/567057/profesional/944368" class="booking-opt" target="_blank" rel="noopener noreferrer">
++        <div class="booking-opt-icon">📅</div>
++        <div class="booking-opt-info"><span class="booking-opt-title">Reservar en Lo Barnechea</span><span class="booking-opt-sub">The One · Miércoles a domingo · 10:00 – 20:00 hrs</span></div>
+         <span class="booking-opt-arrow">→</span>
+       </a>
+       <a href="https://www.instagram.com/edwinfoxbarberstyle/" class="booking-opt" target="_blank" rel="noopener">
+@@ -583,17 +592,18 @@ nav.scrolled{padding:.8rem 1.5rem}
+     <div>
+       <p class="about-label" style="margin-bottom:1rem">04 — Productos</p>
+       <h2 class="about-h2" style="margin-bottom:0">Para mantener<br>el resultado en <em>casa</em></h2>
++      <p style="margin-top:1.5rem;max-width:34rem;font-size:.9rem;line-height:1.8;color:var(--muted)">Productos de cuidado del cabello y la barba seleccionados por tu barbero profesional en Santiago: la forma de conservar el corte, la barba y el estilo entre cada visita.</p>
+     </div>
+   </div>
+   <div class="svc-list">
+     <div class="svc-row rv">
+       <span class="svc-idx">★</span>
+       <div class="svc-info">
+-        <span class="svc-name">[NOMBRE DEL PRODUCTO — PENDIENTE]</span>
+-        <span class="svc-desc">[DESCRIPCIÓN BREVE — PENDIENTE]</span>
++        <span class="svc-name">Selección recomendada por Edwin Fox</span>
++        <span class="svc-desc">Cuidado capilar y de barba para tu rutina en casa. Compra directo en Mercado Libre.</span>
+       </div>
+-      <span class="svc-dur">[PRECIO — PENDIENTE]</span>
+-      <a href="https://meli.la/2Qpa2Da" class="btn-outline" target="_blank" rel="noopener">Comprar →</a>
++      <span class="svc-dur">Mercado Libre</span>
++      <a href="https://meli.la/2Qpa2Da" class="btn-outline" style="white-space:nowrap;padding:.8rem 1.2rem" target="_blank" rel="noopener noreferrer">Ver productos →</a>
+     </div>
+   </div>
+ </section>
+@@ -629,8 +639,8 @@ nav.scrolled{padding:.8rem 1.5rem}
+     </div>
+   </div>
+   <div class="reviews-cta rv">
+-    <a href="https://share.google/YPLEVo3zPO76PmQfY" class="btn-gold" target="_blank" rel="noopener">Deja tu reseña en Google</a>
+-    <a href="https://share.google/YPLEVo3zPO76PmQfY" class="btn-ghost" target="_blank" rel="noopener">Ver todas las reseñas →</a>
++    <a href="https://share.google/yfvP0dNiprBdXGKvK" class="btn-gold" target="_blank" rel="noopener">Deja tu reseña en Google</a>
++    <a href="https://share.google/yfvP0dNiprBdXGKvK" class="btn-ghost" target="_blank" rel="noopener">Ver todas las reseñas →</a>
+   </div>
+ </section>
+ 
+@@ -651,7 +661,7 @@ nav.scrolled{padding:.8rem 1.5rem}
+   </div>
+   <div class="ig-cta rv">
+     <p class="ig-handle">@edwinfoxbarberstyle</p>
+-    <p class="ig-sub">Cortes · Barba · Estilo · Maipú, Santiago</p>
++    <p class="ig-sub">Cortes · Barba · Estilo · Santiago, Lo Barnechea</p>
+     <a href="https://www.instagram.com/edwinfoxbarberstyle/" class="btn-gold" target="_blank" rel="noopener">Ver en Instagram</a>
+   </div>
+ </section>
+@@ -661,18 +671,21 @@ nav.scrolled{padding:.8rem 1.5rem}
+   <div class="loc-grid">
+     <div class="rv-left">
+       <p class="about-label" style="margin-bottom:1rem">07 — Ubicación</p>
+-      <h2 class="about-h2" style="margin-bottom:2.5rem">Maipú,<br><em>Santiago</em></h2>
++      <h2 class="about-h2" style="margin-bottom:2.5rem">Atención en<br><em>Santiago</em></h2>
+       <div class="loc-items">
+-        <div class="loc-item"><p class="loc-lbl">Estudio</p><p class="loc-val">J. Márquez Barber Shop<br>742 Av. Parque Central Oriente<br>Maipú, RM 9250000</p></div>
++        <div class="loc-item"><p class="loc-lbl">Santiago Centro</p><p class="loc-val">Atención personalizada<br>Lunes y martes · 10:00 – 20:00</p></div>
++        <div class="loc-item"><p class="loc-lbl">Lo Barnechea</p><p class="loc-val">The One Barber Club<br>Miércoles a domingo · 10:00 – 20:00</p></div>
+         <div class="loc-item"><p class="loc-lbl">Contacto</p><p class="loc-val"><a href="https://wa.me/56986505521" target="_blank">+56 9 8650 5521</a><br><a href="mailto:hola@edwinfoxbarberstyle.com">hola@edwinfoxbarberstyle.com</a></p></div>
+-        <div class="loc-item"><p class="loc-lbl">Horario</p><p class="loc-val">Lunes a Sábado · 10:00 – 20:00<br>Domingo cerrado</p></div>
+-        <div class="loc-item"><p class="loc-lbl">Reserva</p><p class="loc-val"><a href="https://jmarquezbarber.setmore.com/edwin-fox-barber" target="_blank" rel="noopener" style="color:var(--gold)">jmarquezbarber.setmore.com/edwin-fox-barber →</a></p></div>
++        <div class="loc-item"><p class="loc-lbl">Reserva</p><p class="loc-val"><a href="https://edwinfoxbarberstyle-regionmetropolitana.setmore.com" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Santiago Centro →</a><br><a href="https://theonebarberclub.site.agendapro.com/cl/sucursal/567057/profesional/944368" target="_blank" rel="noopener noreferrer" style="color:var(--gold)">Lo Barnechea →</a></p></div>
+       </div>
+     </div>
+     <div class="loc-map rv-right">
+-      <p class="loc-map-name">J. Márquez Barber Shop</p>
+-      <p class="loc-map-addr">742 Av. Parque Central Oriente · Maipú</p>
+-      <a href="https://share.google/YPLEVo3zPO76PmQfY" class="loc-map-link" target="_blank" rel="noopener">Abrir en Google Maps →</a>
++      <p class="loc-map-name">Edwin Fox Barber Style</p>
++      <p class="loc-map-addr">Santiago Centro · Lo Barnechea</p>
++      <div style="display:flex;flex-direction:column;gap:.7rem;text-align:center;position:relative">
++        <a href="https://edwinfoxbarberstyle-regionmetropolitana.setmore.com" class="btn-outline" style="letter-spacing:.1em;padding:.85rem 1rem;white-space:nowrap" target="_blank" rel="noopener noreferrer">Reservar en Santiago Centro</a>
++        <a href="https://theonebarberclub.site.agendapro.com/cl/sucursal/567057/profesional/944368" class="btn-outline" style="letter-spacing:.1em;padding:.85rem 1rem;white-space:nowrap" target="_blank" rel="noopener noreferrer">Reservar en Lo Barnechea</a>
++      </div>
+     </div>
+   </div>
+ </section>
+@@ -684,9 +697,10 @@ nav.scrolled{padding:.8rem 1.5rem}
+     <a href="https://www.instagram.com/edwinfoxbarberstyle/" class="footer-link" target="_blank" rel="noopener">Instagram</a>
+     <a href="https://wa.me/56986505521" class="footer-link" target="_blank">WhatsApp</a>
+     <a href="mailto:hola@edwinfoxbarberstyle.com" class="footer-link">Email</a>
+-    <a href="https://jmarquezbarber.setmore.com/edwin-fox-barber" class="footer-link" target="_blank" rel="noopener">Reservas</a>
++    <a href="https://edwinfoxbarberstyle-regionmetropolitana.setmore.com" class="footer-link" target="_blank" rel="noopener noreferrer">Reservas Santiago Centro</a>
++    <a href="https://theonebarberclub.site.agendapro.com/cl/sucursal/567057/profesional/944368" class="footer-link" target="_blank" rel="noopener noreferrer">Reservas Lo Barnechea</a>
+   </div>
+-  <span class="footer-copy">© 2026 Edwin Fox Barber Style · Maipú, Santiago</span>
++  <span class="footer-copy">© 2026 Edwin Fox Barber Style · Santiago, Lo Barnechea</span>
+ </footer>
+ 
+ <!-- FLOATS -->
+@@ -808,10 +822,10 @@ document.getElementById('bookingForm').addEventListener('submit', function(e){
+   if(f){
+     var fd = new Date(f+'T12:00:00');
+     var hoy = new Date(); hoy.setHours(0,0,0,0);
+-    fOk = fd >= hoy && fd.getDay() !== 0;
++    fOk = fd >= hoy;
+   }
+   var errF = document.getElementById('errFecha');
+-  errF.textContent = !f ? 'Selecciona fecha' : !fOk ? 'Domingo cerrado' : '';
++  errF.textContent = !f ? 'Selecciona fecha' : !fOk ? 'Fecha no válida' : '';
+   errF.classList.toggle('show', !fOk);
+   if(!fOk) ok = false;
+ 
+@@ -824,7 +838,9 @@ document.getElementById('bookingForm').addEventListener('submit', function(e){
+ 
+   var fd2 = new Date(f+'T12:00:00');
+   var ds = fd2.toLocaleDateString('es-CL',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+-  var msg = 'Hola%20Edwin%20Fox!%0AQuiero%20reservar%3A%0A*Nombre%3A*%20'+encodeURIComponent(n)+'%0A*Tel%C3%A9fono%3A*%20'+encodeURIComponent(t)+'%0A*Servicio%3A*%20'+encodeURIComponent(s)+'%0A*Fecha%3A*%20'+encodeURIComponent(ds)+'%0A*Hora%3A*%20'+encodeURIComponent(h);
++  var dia = fd2.getDay();
++  var ubic = (dia === 1 || dia === 2) ? 'Santiago Centro' : 'Lo Barnechea (The One Barber Club)';
++  var msg = 'Hola%20Edwin%20Fox!%0AQuiero%20reservar%3A%0A*Nombre%3A*%20'+encodeURIComponent(n)+'%0A*Tel%C3%A9fono%3A*%20'+encodeURIComponent(t)+'%0A*Servicio%3A*%20'+encodeURIComponent(s)+'%0A*Fecha%3A*%20'+encodeURIComponent(ds)+'%0A*Hora%3A*%20'+encodeURIComponent(h)+'%0A*Ubicaci%C3%B3n%3A*%20'+encodeURIComponent(ubic);
+ 
+   setTimeout(function(){ window.open('https://wa.me/56986505521?text='+msg,'_blank'); }, 700);
+ });
+diff --git a/sitemap.xml b/sitemap.xml
+index 74bd56a..6380c60 100644
+--- a/sitemap.xml
++++ b/sitemap.xml
+@@ -6,7 +6,7 @@
+         http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd">
+   <url>
+     <loc>https://edwinfoxbarberstyle.com/</loc>
+-    <lastmod>2026-05-29</lastmod>
++    <lastmod>2026-11-24</lastmod>
+     <changefreq>monthly</changefreq>
+     <priority>1.0</priority>
+   </url>

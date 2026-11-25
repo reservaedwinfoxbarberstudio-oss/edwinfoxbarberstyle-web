@@ -1,7 +1,7 @@
 # Edwin Fox Barber Style — Sitio Web Oficial
 
 🌐 **edwinfoxbarberstyle.com**  
-Barbería de alto estándar · Maipú, Santiago, Chile
+Barbería de alto estándar · Santiago Centro y Lo Barnechea, Chile
 
 ---
 
@@ -10,7 +10,7 @@ Barbería de alto estándar · Maipú, Santiago, Chile
 - **Hosting**: Cloudflare Pages (gratis, CDN global)
 - **DNS / SSL**: Cloudflare (automático)
 - **CRM**: HubSpot Free
-- **Reservas**: WhatsApp directo
+- **Reservas**: Setmore (Santiago Centro), AgendaPro (Lo Barnechea) y WhatsApp
 
 ## Estructura del repositorio
 
